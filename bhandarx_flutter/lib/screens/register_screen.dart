@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../widgets/input_field.dart';
 import '../widgets/custom_button.dart';
 import '../services/auth_storage.dart';
-import 'dashboard_screen.dart';
+import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = '/register';
@@ -48,8 +48,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // Save user (frontend only)
     await AuthStorage.saveUser(email, pass);
 
-    // Navigate to dashboard
-    Navigator.pushReplacementNamed(context, DashboardScreen.routeName);
+    // 🔥 FIXED — Redirect to LOGIN, NOT DASHBOARD
+    Navigator.pushReplacementNamed(context, LoginScreen.routeName);
   }
 
   @override
@@ -73,35 +73,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Image.asset('assets/images/logo.png', height: 110),
               const SizedBox(height: 50),
 
-              const Text("Create Account",
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
-              const Text("Join BhandarX", style: TextStyle(color: Colors.grey)),
+              const Text(
+                "Create Account",
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              ),
+              const Text(
+                "Join BhandarX",
+                style: TextStyle(color: Colors.grey),
+              ),
               const SizedBox(height: 40),
 
-              // NEW FULL NAME FIELD
-              InputField(
-                label: "Full Name",
-                controller: _fullNameCtrl,
-                // hint: "John Doe",
-              ),
+              // FULL NAME FIELD
+              InputField(label: "Full Name", controller: _fullNameCtrl),
 
-              InputField(
-                label: "Email",
-                controller: _emailCtrl,
-                // hint: "you@example.com",
-              ),
+              // EMAIL FIELD
+              InputField(label: "Email", controller: _emailCtrl),
 
-              InputField(
-                label: "Password",
-                controller: _passCtrl,
-                isPassword: true,
-              ),
+              // PASSWORD FIELD
+              InputField(label: "Password", controller: _passCtrl, isPassword: true),
 
-              InputField(
-                label: "Confirm Password",
-                controller: _confirmCtrl,
-                isPassword: true,
-              ),
+              // CONFIRM PASSWORD FIELD
+              InputField(label: "Confirm Password", controller: _confirmCtrl, isPassword: true),
 
               if (_error != null)
                 Padding(
@@ -113,9 +105,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
 
               const SizedBox(height: 20),
+
               CustomButton(text: "Create Account", onPressed: _register),
 
               const SizedBox(height: 20),
+
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text(

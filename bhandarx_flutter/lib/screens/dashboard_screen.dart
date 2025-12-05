@@ -8,35 +8,50 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF2196F3),
-        foregroundColor: Colors.white,
-        title: const Text("Home"),
-        leading: Builder(builder: (context) => IconButton(icon: const Icon(Icons.menu), onPressed: () => Scaffold.of(context).openDrawer())),
-        actions: const [Padding(padding: EdgeInsets.only(right: 16), child: CircleAvatar(backgroundColor: Colors.white, child: Icon(Icons.person, color: Color(0xFF2196F3))))],
+        title: const Text("BhandarX Dashboard"),
+        backgroundColor: const Color(0xFF1E3A8A),
       ),
-      drawer: Drawer(
-        child: ListView(
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: GridView.count(
+          crossAxisCount: 2,
+          childAspectRatio: 1.2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(color: Color(0xFF2196F3)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Image.asset('assets/images/logo.png', height: 60),
-                  const SizedBox(height: 12),
-                  const Text("BhandarX", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-                ],
-              ),
-            ),
-            ListTile(leading: const Icon(Icons.home, color: Color(0xFF2196F3)), title: const Text("Home")),
-            ListTile(leading: const Icon(Icons.inventory, color: Color(0xFF2196F3)), title: const Text("Inventory")),
-            ListTile(leading: const Icon(Icons.people, color: Color(0xFF2196F3)), title: const Text("Employees")),
-            ListTile(leading: const Icon(Icons.receipt_long, color: Color(0xFF2196F3)), title: const Text("Transactions")),
+            dashItem(Icons.inventory_rounded, "Products"),
+            dashItem(Icons.category_outlined, "Categories"),
+            dashItem(Icons.add_shopping_cart, "Add Stock"),
+            dashItem(Icons.remove_shopping_cart, "Reduce Stock"),
+            dashItem(Icons.analytics, "Reports"),
+            dashItem(Icons.settings, "Settings"),
           ],
         ),
       ),
-      body: const Center(child: Text("Home", style: TextStyle(fontSize: 28, color: Colors.black54, fontWeight: FontWeight.w600))),
+    );
+  }
+
+  Widget dashItem(IconData icon, String title) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade300,
+            blurRadius: 8,
+            spreadRadius: 1,
+          )
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 48, color: Color(0xFF1E3A8A)),
+          const SizedBox(height: 10),
+          Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        ],
+      ),
     );
   }
 }

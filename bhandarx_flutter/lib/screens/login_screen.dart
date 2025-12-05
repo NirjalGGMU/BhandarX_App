@@ -24,23 +24,21 @@ class _LoginScreenState extends State<LoginScreen> {
     final email = _emailCtrl.text.trim();
     final pass = _passCtrl.text;
 
+    // NEW: Check for empty fields first and show specific message
     if (email.isEmpty || pass.isEmpty) {
-      setState(() => _error = "Please fill all fields");
+      setState(() => _error = "Please fill email and password first");
       return;
     }
 
-    final user = await AuthStorage.getUser();
-    if (user == null) {
-      setState(() => _error = "No account found. Register first!");
-      return;
+    // Validate against saved credentials
+    final isValid = await AuthStorage.validateUser(email, pass);
+    if (isValid) {
+      // successful login -> dashboard
+      Navigator.pushReplacementNamed(context, DashboardScreen.routeName);
+    } else {
+      // credentials provided but incorrect
+      setState(() => _error = "Invalid email or password");
     }
-
-    if (user["email"] != email || user["password"] != pass) {
-      setState(() => _error = "Wrong email or password");
-      return;
-    }
-
-    Navigator.pushReplacementNamed(context, DashboardScreen.routeName);
   }
 
   @override
@@ -65,7 +63,6 @@ class _LoginScreenState extends State<LoginScreen> {
               const Text("Sign in to continue", style: TextStyle(color: Colors.grey)),
               const SizedBox(height: 40),
 
-              // Fixed — now works perfectly
               InputField(label: "Email", controller: _emailCtrl),
               InputField(label: "Password", controller: _passCtrl, isPassword: true),
 
