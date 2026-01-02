@@ -251,13 +251,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'themes/app_theme.dart';
-import 'themes/app_colors.dart';
-import 'screens/splash_screen.dart';
-import 'screens/onboarding_screen.dart';
-import 'screens/login_screen.dart';
-import 'screens/register_screen.dart';
-import 'screens/dashboard_screen.dart';
+import 'app/themes/app_theme.dart';
+import 'app/themes/app_colors.dart';
+import 'features/splash/presentation/pages/splash_screen.dart';
+import 'features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'features/auth/presentation/pages/login_screen.dart';
+import 'features/auth/presentation/pages/register_screen.dart';
+import 'features/dashboard/presentation/pages/dashboard_screen.dart';
 
 void main() {
   runApp(const BhandarXApp());
