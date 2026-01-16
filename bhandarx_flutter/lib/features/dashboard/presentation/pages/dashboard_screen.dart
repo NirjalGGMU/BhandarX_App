@@ -385,6 +385,182 @@
 // }
 
 
+// // bhandarx_flutter/lib/screens/dashboard_screen.dart
+// import 'package:flutter/material.dart';
+// import '../../../../app/themes/app_colors.dart';
+// import '../../../../core/widgets/bottom_nav_bar.dart';
+
+// class DashboardScreen extends StatefulWidget {
+//   static const routeName = '/dashboard';
+//   const DashboardScreen({super.key});
+
+//   @override
+//   State<DashboardScreen> createState() => _DashboardScreenState();
+// }
+
+// class _DashboardScreenState extends State<DashboardScreen> {
+//   int _currentIndex = 0;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       drawer: _buildDrawer(),
+//       appBar: AppBar(
+//         title: const Text("BhandarX"),
+//         leading: Builder(
+//           builder: (context) => IconButton(
+//             icon: const Icon(Icons.menu),
+//             onPressed: () => Scaffold.of(context).openDrawer(),
+//           ),
+//         ),
+//         actions: const [
+//           Padding(
+//             padding: EdgeInsets.only(right: 16),
+//             child: CircleAvatar(
+//               backgroundColor: Colors.white,
+//               child: Icon(Icons.person, color: AppColors.primary),
+//             ),
+//           )
+//         ],
+//       ),
+
+//       body: Padding(
+//         padding: const EdgeInsets.all(16),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             const Text(
+//               "Good Evening 👋",
+//               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+//             ),
+//             const SizedBox(height: 12),
+
+//             // FEATURE CARD
+//             Container(
+//               width: double.infinity,
+//               padding: const EdgeInsets.all(20),
+//               decoration: BoxDecoration(
+//                 gradient: const LinearGradient(
+//                   colors: [AppColors.primary, AppColors.secondary],
+//                 ),
+//                 borderRadius: BorderRadius.circular(18),
+//               ),
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: const [
+//                   Icon(Icons.inventory_2, color: Colors.white, size: 32),
+//                   SizedBox(height: 10),
+//                   Text(
+//                     "Inventory Overview",
+//                     style: TextStyle(
+//                         color: Colors.white,
+//                         fontSize: 18,
+//                         fontWeight: FontWeight.bold),
+//                   ),
+//                   SizedBox(height: 4),
+//                   Text(
+//                     "Track stock, sales & updates easily",
+//                     style: TextStyle(color: Colors.white70),
+//                   ),
+//                 ],
+//               ),
+//             ),
+
+//             const SizedBox(height: 20),
+
+//             // QUICK ACTIONS
+//             Expanded(
+//               child: GridView.count(
+//                 crossAxisCount: 2,
+//                 crossAxisSpacing: 14,
+//                 mainAxisSpacing: 14,
+//                 children: [
+//                   _dashboardCard(Icons.inventory, "Inventory"),
+//                   _dashboardCard(Icons.receipt_long, "Transactions"),
+//                   _dashboardCard(Icons.people, "Employees"),
+//                   _dashboardCard(Icons.analytics, "Reports"),
+//                 ],
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+
+//       bottomNavigationBar: BhandarXBottomNav(
+//         currentIndex: _currentIndex,
+//         onTap: (index) => setState(() => _currentIndex = index),
+//         onCenterTap: () {
+//           // Add new inventory action
+//         },
+//       ),
+//     );
+//   }
+
+//   Widget _dashboardCard(IconData icon, String title) {
+//     return Container(
+//       decoration: BoxDecoration(
+//         color: AppColors.surface,
+//         borderRadius: BorderRadius.circular(18),
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.black12,
+//             blurRadius: 6,
+//           ),
+//         ],
+//       ),
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Icon(icon, size: 36, color: AppColors.primary),
+//           const SizedBox(height: 10),
+//           Text(
+//             title,
+//             style: const TextStyle(fontWeight: FontWeight.w600),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   Drawer _buildDrawer() {
+//     return Drawer(
+//       child: Column(
+//         children: [
+//           DrawerHeader(
+//             decoration: const BoxDecoration(color: AppColors.primary),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               mainAxisAlignment: MainAxisAlignment.end,
+//               children: const [
+//                 Text(
+//                   "BhandarX",
+//                   style: TextStyle(
+//                       color: Colors.white,
+//                       fontSize: 24,
+//                       fontWeight: FontWeight.bold),
+//                 ),
+//                 Text(
+//                   "Inventory Management",
+//                   style: TextStyle(color: Colors.white70),
+//                 ),
+//               ],
+//             ),
+//           ),
+//           ListTile(leading: Icon(Icons.home), title: Text("Home")),
+//           ListTile(leading: Icon(Icons.inventory), title: Text("Inventory")),
+//           ListTile(leading: Icon(Icons.people), title: Text("Employees")),
+//           ListTile(leading: Icon(Icons.settings), title: Text("Settings")),
+//           const Spacer(),
+//           ListTile(leading: const Icon(Icons.logout), title: const Text("Logout")),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+
+
+
 // bhandarx_flutter/lib/screens/dashboard_screen.dart
 import 'package:flutter/material.dart';
 import '../../../../app/themes/app_colors.dart';

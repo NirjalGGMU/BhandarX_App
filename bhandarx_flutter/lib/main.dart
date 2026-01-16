@@ -247,8 +247,8 @@
 
 // lib/main.dart
 
-// lib/main.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'app/themes/app_theme.dart';
@@ -260,7 +260,7 @@ import 'features/auth/presentation/pages/register_screen.dart';
 import 'features/dashboard/presentation/pages/dashboard_screen.dart';
 
 void main() {
-  runApp(const BhandarXApp());
+  runApp(const ProviderScope(child: BhandarXApp()));
 }
 
 class BhandarXApp extends StatelessWidget {
@@ -301,3 +301,229 @@ class BhandarXApp extends StatelessWidget {
     );
   }
 }
+
+
+// // lib/main.dart
+// import 'package:bhandarx_flutter/core/services/storage/user_session_service.dart';
+// import 'package:flutter/material.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'package:flutter/services.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'core/services/hive/hive_service.dart';
+// import 'app/themes/app_theme.dart';
+// import 'app/themes/app_colors.dart';
+// import 'features/splash/presentation/pages/splash_screen.dart';
+// import 'features/onboarding/presentation/pages/onboarding_screen.dart';
+// import 'features/auth/presentation/pages/login_screen.dart';
+// import 'features/auth/presentation/pages/register_screen.dart';
+// import 'features/dashboard/presentation/pages/dashboard_screen.dart';
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+
+//   SystemChrome.setSystemUIOverlayStyle(
+//     const SystemUiOverlayStyle(
+//       statusBarColor: Colors.transparent,
+//       statusBarIconBrightness: Brightness.dark,
+//       systemNavigationBarColor: Colors.white,
+//       systemNavigationBarIconBrightness: Brightness.dark,
+//     ),
+//   );
+
+//   await HiveService().init();
+
+//   final sharedPref = await SharedPreferences.getInstance();
+
+//   runApp(
+//     ProviderScope(
+//       overrides: [sharedPreferenceProvider.overrideWithValue(sharedPref)],
+//       child: const BhandarXApp(),
+//     ),
+//   );
+// }
+
+// class BhandarXApp extends StatelessWidget {
+//   const BhandarXApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'BhandarX',
+//       debugShowCheckedModeBanner: false,
+//       theme: AppTheme.lightTheme.copyWith(
+//         textTheme: GoogleFonts.interTextTheme(AppTheme.lightTheme.textTheme),
+//         colorScheme: ColorScheme.fromSeed(
+//           seedColor: AppColors.primary,
+//           brightness: Brightness.light,
+//           surface: AppColors.background,
+//         ),
+//         scaffoldBackgroundColor: AppColors.background,
+//         appBarTheme: const AppBarTheme(
+//           backgroundColor: AppColors.primary,
+//           foregroundColor: Colors.white,
+//           elevation: 0,
+//           centerTitle: true,
+//         ),
+//         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+//           backgroundColor: Colors.transparent,
+//           elevation: 0,
+//         ),
+//       ),
+//       initialRoute: SplashScreen.routeName,
+//       routes: {
+//         SplashScreen.routeName: (_) => const SplashScreen(),
+//         OnboardingScreen.routeName: (_) => const OnboardingScreen(),
+//         LoginScreen.routeName: (_) => const LoginScreen(),
+//         RegisterScreen.routeName: (_) => const RegisterScreen(),
+//         DashboardScreen.routeName: (_) => const DashboardScreen(),
+//       },
+//     );
+//   }
+// }
+
+
+
+// // lib/main.dart
+// import 'package:bhandarx_flutter/core/services/storage/user_session_service.dart';
+// import 'package:flutter/material.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'package:flutter/services.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'core/services/hive/hive_service.dart';
+// import 'app/themes/app_theme.dart';
+// import 'app/themes/app_colors.dart';
+// import 'features/splash/presentation/pages/splash_screen.dart';
+// import 'features/onboarding/presentation/pages/onboarding_screen.dart';
+// import 'features/auth/presentation/pages/login_screen.dart';
+// import 'features/auth/presentation/pages/register_screen.dart';
+// import 'features/dashboard/presentation/pages/dashboard_screen.dart';
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+
+//   // Set system UI overlay style
+//   SystemChrome.setSystemUIOverlayStyle(
+//     const SystemUiOverlayStyle(
+//       statusBarColor: Colors.transparent,
+//       statusBarIconBrightness: Brightness.dark,
+//       systemNavigationBarColor: Colors.white,
+//       systemNavigationBarIconBrightness: Brightness.dark,
+//     ),
+//   );
+
+//   await HiveService().init();
+
+//   // shared pref object
+//   final sharedPref = await SharedPreferences.getInstance();
+
+//   runApp(
+//     ProviderScope(
+//       overrides: [sharedPreferenceProvider.overrideWithValue(sharedPref)],
+//       child: const BhandarXApp(),
+//     ),
+//   );
+// }
+
+// class BhandarXApp extends StatelessWidget {
+//   const BhandarXApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'BhandarX',
+//       debugShowCheckedModeBanner: false,
+//       theme: AppTheme.lightTheme.copyWith(
+//         textTheme: GoogleFonts.interTextTheme(AppTheme.lightTheme.textTheme),
+//         colorScheme: ColorScheme.fromSeed(
+//           seedColor: AppColors.primary,
+//           brightness: Brightness.light,
+//           surface: AppColors.background,
+//         ),
+//         scaffoldBackgroundColor: AppColors.background,
+//         appBarTheme: const AppBarTheme(
+//           backgroundColor: AppColors.primary,
+//           foregroundColor: Colors.white,
+//           elevation: 0,
+//           centerTitle: true,
+//         ),
+//         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+//           backgroundColor: Colors.transparent,
+//           elevation: 0,
+//         ),
+//       ),
+//       initialRoute: SplashScreen.routeName,
+//       routes: {
+//         SplashScreen.routeName: (_) => const SplashScreen(),
+//         OnboardingScreen.routeName: (_) => const OnboardingScreen(),
+//         LoginScreen.routeName: (_) => const LoginScreen(),
+//         RegisterScreen.routeName: (_) => const RegisterScreen(),
+//         DashboardScreen.routeName: (_) => const DashboardScreen(),
+//       },
+//     );
+//   }
+// }
+
+
+
+
+
+
+
+// // lib/main.dart
+// import 'package:flutter/material.dart';
+// import 'package:google_fonts/google_fonts.dart';
+// import 'app/themes/app_theme.dart';
+// import 'app/themes/app_colors.dart';
+// import 'features/splash/presentation/pages/splash_screen.dart';
+// import 'features/onboarding/presentation/pages/onboarding_screen.dart';
+// import 'features/auth/presentation/pages/login_screen.dart';
+// import 'features/auth/presentation/pages/register_screen.dart';
+// import 'features/dashboard/presentation/pages/dashboard_screen.dart';
+
+
+
+// void main() {
+//   runApp(const BhandarXApp());
+// }
+
+// class BhandarXApp extends StatelessWidget {
+//   const BhandarXApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'BhandarX',
+//       debugShowCheckedModeBanner: false,
+//       theme: AppTheme.lightTheme.copyWith(
+//         textTheme: GoogleFonts.interTextTheme(AppTheme.lightTheme.textTheme),
+//         colorScheme: ColorScheme.fromSeed(
+//           seedColor: AppColors.primary,
+//           brightness: Brightness.light,
+//           surface: AppColors.background,
+//         ),
+//         scaffoldBackgroundColor: AppColors.background,
+//         appBarTheme: const AppBarTheme(
+//           backgroundColor: AppColors.primary,
+//           foregroundColor: Colors.white,
+//           elevation: 0,
+//           centerTitle: true,
+//         ),
+//         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+//           backgroundColor: Colors.transparent,
+//           elevation: 0,
+//         ),
+//       ),
+//       initialRoute: SplashScreen.routeName,
+//       routes: {
+//         SplashScreen.routeName: (_) => const SplashScreen(),
+//         OnboardingScreen.routeName: (_) => const OnboardingScreen(),
+//         LoginScreen.routeName: (_) => const LoginScreen(),
+//         RegisterScreen.routeName: (_) => const RegisterScreen(),
+//         DashboardScreen.routeName: (_) => const DashboardScreen(),
+//       },
+//     );
+//   }
+// }
+

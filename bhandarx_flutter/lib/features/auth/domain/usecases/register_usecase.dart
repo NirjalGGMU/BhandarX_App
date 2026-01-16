@@ -23,7 +23,7 @@ class RegisterUsecaseParams extends Equatable {
     required this.fullName,
     required this.email,
     required this.username,
-    required this.password,
+    required this.password, required String confirmPassword,
   });
 
   @override

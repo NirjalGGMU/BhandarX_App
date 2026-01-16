@@ -1,0 +1,47 @@
+//lib/core/services/connectivity/network_info.dart
+import 'dart:io';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+abstract interface class INetworkInfo {
+  Future<bool> get isConnected;
+}
+
+final networkInfoProvider = Provider<NetworkInfo>((ref) {
+  return NetworkInfo(connectivity: Connectivity());
+});
+
+class NetworkInfo implements INetworkInfo {
+  final Connectivity _connectivity;
+
+  NetworkInfo({required Connectivity connectivity})
+      : _connectivity = connectivity;
+
+  @override
+  Future<bool> get isConnected async {
+    final result = await _connectivity.checkConnectivity();
+
+    if (result.contains(ConnectivityResult.none)) {
+      return false;
+    }
+
+    // For localhost development, return true
+    // Uncomment below for production to check actual internet
+    // return await _checkForInternet();
+    return true;
+  }
+
+  // REMOVED: _checkForInternet() method since it's not being used
+  // Uncomment and use this in production if needed:
+  /*
+  Future<bool> _checkForInternet() async {
+    try {
+      final result = await InternetAddress.lookup("google.com");
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException catch (_) {
+      return false;
+    }
+  }
+  */
+}

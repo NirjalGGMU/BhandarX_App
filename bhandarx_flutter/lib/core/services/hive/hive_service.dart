@@ -1,6 +1,7 @@
+// lib/core/services/hive/hive_service.dart
+
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-
 
 import 'package:bhandarx_flutter/core/constants/hive_table_constant.dart';
 import 'package:bhandarx_flutter/features/auth/data/models/auth_hive_model.dart';
@@ -35,7 +36,7 @@ class HiveService {
     await Hive.close();
   }
 
-  // Hack: =================== Auth CRUD Operations ===========================
+  // =================== Auth CRUD Operations ===========================
 
   Box<AuthHiveModel> get _authBox =>
       Hive.box<AuthHiveModel>(HiveTableConstant.authTable);
@@ -70,4 +71,17 @@ class HiveService {
 
   // logout
   Future<void> logoutUser() async {}
+
+  // ADDED TYPE: Check if onboarding is seen
+  Future<bool> isOnboardingSeen() async {
+    // Implement your logic here - you might want to use SharedPreferences
+    // For now returning false
+    return false;
+  }
+
+  // ADDED: Set onboarding as seen
+  Future<void> setOnboardingSeen() async {
+    // Implement your logic here - use SharedPreferences
+    // await SharedPreferences.getInstance().then((prefs) => prefs.setBool('onboarding_seen', true));
+  }
 }
