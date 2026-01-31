@@ -99,11 +99,11 @@ class AuthRepository implements IAuthRepository {
     }
   }
 
-  @override
+  @override\/
   Future<Either<Failure, bool>> register(AuthEntity entity) async {
     if (await _networkInfo.isConnected) {
       try {
-        final userModel = AuthApiModel.fromEntity(entity);
+        final userModel = AuthApiModel.fromEntity(entity);\/
         await _authRemoteDatasource.register(userModel);
         return Right(true);
       } on DioException catch (e) {
