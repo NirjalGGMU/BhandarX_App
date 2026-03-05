@@ -1,11 +1,13 @@
-// lib/features/auth/presentation/pages/register_screen.dart
+import 'package:bhandarx_flutter/app/themes/app_colors.dart';
+import 'package:bhandarx_flutter/core/localization/app_localizations.dart';
+import 'package:bhandarx_flutter/core/widgets/custom_button.dart';
+import 'package:bhandarx_flutter/core/widgets/input_field.dart';
+import 'package:bhandarx_flutter/features/auth/presentation/pages/login_screen.dart';
+import 'package:bhandarx_flutter/features/auth/presentation/state/auth_state.dart';
+import 'package:bhandarx_flutter/features/auth/presentation/view_model/auth_view_model.dart';
+import 'package:bhandarx_flutter/features/auth/presentation/widgets/auth_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../core/widgets/input_field.dart';
-import '../../../../core/widgets/custom_button.dart';
-import '../../presentation/view_model/auth_view_model.dart';
-import '../../presentation/state/auth_state.dart'; // ← Import this!
-import 'login_screen.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   static const routeName = '/register';
@@ -32,532 +34,137 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authViewModelProvider);
-
+    final l10n = AppLocalizations.of(context)!;
     ref.listen(authViewModelProvider, (previous, next) {
       if (next.status == AuthStatus.register) {
-        // After successful registration → go to login
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.successMessage ?? 'Account created')),
+        );
         Navigator.pushReplacementNamed(context, LoginScreen.routeName);
       }
-      if (next.errorMessage != null && next.status == AuthStatus.error) {
+      if (next.status == AuthStatus.error && next.errorMessage != null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.errorMessage!),
-            backgroundColor: Colors.red,
-            duration: const Duration(seconds: 4),
-          ),
+          SnackBar(content: Text(next.errorMessage!)),
         );
       }
     });
 
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.all(32),
-              child: Column(
-                children: [
-                  const SizedBox(height: 60),
-                  Image.asset('assets/images/logo.png', height: 110),
-                  const SizedBox(height: 50),
+    final authState = ref.watch(authViewModelProvider);
 
-                  const Text(
-                    "Create Account",
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+    return AuthScaffold(
+      title: l10n.tr('create_account'),
+      subtitle: l10n.tr('register_subtitle'),
+      helperText: l10n.tr('register_helper'),
+      child: Column(
+        children: [
+          InputField(
+            label: l10n.tr('full_name'),
+            hint: 'Nirjal Shrestha',
+            controller: _fullNameCtrl,
+          ),
+          InputField(
+            label: l10n.tr('email'),
+            hint: 'you@example.com',
+            controller: _emailCtrl,
+            keyboardType: TextInputType.emailAddress,
+          ),
+          const SizedBox(height: 10),
+          InputField(
+            label: l10n.tr('password'),
+            hint: 'Minimum 8 characters',
+            controller: _passCtrl,
+            isPassword: true,
+          ),
+          InputField(
+            label: l10n.tr('confirm_password'),
+            hint: 'Re-enter your password',
+            controller: _confirmCtrl,
+            isPassword: true,
+          ),
+          CustomButton(
+            text: l10n.tr('create_account'),
+            isLoading: authState.status == AuthStatus.loading,
+            onPressed: () {
+              final fullName = _fullNameCtrl.text.trim();
+              final email = _emailCtrl.text.trim();
+              final password = _passCtrl.text;
+              final confirmPassword = _confirmCtrl.text;
+
+              if (fullName.isEmpty ||
+                  email.isEmpty ||
+                  password.isEmpty ||
+                  confirmPassword.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('All fields are required')),
+                );
+                return;
+              }
+
+              if (!email.contains('@')) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Enter a valid email')),
+                );
+                return;
+              }
+
+              if (password.length < 8) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Password must be at least 8 characters'),
                   ),
-                  const Text(
-                    "Join BhandarX",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  const SizedBox(height: 40),
+                );
+                return;
+              }
 
-                  InputField(label: "Full Name", controller: _fullNameCtrl),
-                  InputField(label: "Email", controller: _emailCtrl),
-                  InputField(
-                    label: "Password",
-                    controller: _passCtrl,
-                    isPassword: true,
-                  ),
-                  InputField(
-                    label: "Confirm Password",
-                    controller: _confirmCtrl,
-                    isPassword: true,
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  CustomButton(
-                    text: "Create Account",
-                    isLoading: authState.status == AuthStatus.loading,
-                    onPressed: () {
-                      if (authState.status != AuthStatus.loading) {
-                        final fullName = _fullNameCtrl.text.trim();
-                        final email = _emailCtrl.text.trim();
-                        final pass = _passCtrl.text;
-                        final confirm = _confirmCtrl.text;
-                  
-                        // Basic client-side validation
-                        if (fullName.isEmpty ||
-                            email.isEmpty ||
-                            pass.isEmpty ||
-                            confirm.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("All fields are required"),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          return;
-                        }
-                  
-                        if (pass.length < 8 ||
-                            !RegExp(r'[!@#$%^&*]').hasMatch(pass)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  "Password: 8+ chars + 1 special symbol"),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          return;
-                        }
-                  
-                        if (pass != confirm) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Passwords do not match"),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          return;
-                        }
-                  
-                        ref
-                            .read(authViewModelProvider.notifier)
-                            .register(
-                              fullName: fullName,
-                              username: email.split('@')[0], // or add username field
-                              email: email,
-                              password: pass,
-                              confirmPassword: confirm,
-                            );
-                      }
-                    },
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text(
-                      "Already have account? Login",
-                      style: TextStyle(color: Color(0xFF3949AB)),
+              final strongPassword = RegExp(
+                r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#]).{8,}$',
+              );
+              if (!strongPassword.hasMatch(password)) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Use 8+ chars with upper, lower, number, and special character',
                     ),
                   ),
-                ],
-              ),
-            ),
+                );
+                return;
+              }
 
-            // Loading overlay
-            if (authState.status == AuthStatus.loading)
-              Container(
-                color: Colors.black26,
-                child: const Center(
-                  child: CircularProgressIndicator(),
+              if (password != confirmPassword) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Passwords do not match')),
+                );
+                return;
+              }
+
+              ref.read(authViewModelProvider.notifier).register(
+                    fullName: fullName,
+                    username: email.split('@').first,
+                    email: email,
+                    password: password,
+                    role: 'employee',
+                  );
+            },
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Already have an account?'),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
+                      context, LoginScreen.routeName);
+                },
+                child: Text(
+                  l10n.tr('login'),
+                  style: const TextStyle(color: AppColors.primary),
                 ),
               ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
-
-
-
-// // lib/screens/register_screen.dart
-
-// import 'package:flutter/material.dart';
-// import '../../../../core/widgets/input_field.dart';
-// import '../../../../core/widgets/custom_button.dart';
-// import '../../../../services/auth_storage.dart';
-// import 'login_screen.dart';
-
-// class RegisterScreen extends StatefulWidget {
-//   static const routeName = '/register';
-//   const RegisterScreen({super.key});
-
-//   @override
-//   State<RegisterScreen> createState() => _RegisterScreenState();
-// }
-
-// class _RegisterScreenState extends State<RegisterScreen> {
-//   final _fullNameCtrl = TextEditingController();
-//   final _emailCtrl = TextEditingController();
-//   final _passCtrl = TextEditingController();
-//   final _confirmCtrl = TextEditingController();
-//   String? _error;
-
-//   void _register() async {
-//     final fullName = _fullNameCtrl.text.trim();
-//     final email = _emailCtrl.text.trim();
-//     final pass = _passCtrl.text;
-//     final confirm = _confirmCtrl.text;
-
-//     // Empty field validation
-//     if (fullName.isEmpty || email.isEmpty || pass.isEmpty || confirm.isEmpty) {
-//       setState(() => _error = "All fields are required");
-//       return;
-//     }
-
-//     // Password strength validation
-//     if (pass.length < 8 || !RegExp(r'[!@#$%^&*]').hasMatch(pass)) {
-//       setState(() => _error = "Password: 8+ chars + 1 special symbol");
-//       return;
-//     }
-
-//     // Confirm password validation
-//     if (pass != confirm) {
-//       setState(() => _error = "Passwords do not match");
-//       return;
-//     }
-
-//     // Save user (frontend only)
-//     await AuthStorage.saveUser(email, pass);
-
-//     // 🔥 FIXED — Redirect to LOGIN, NOT DASHBOARD
-//     Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-//   }
-
-//   @override
-//   void dispose() {
-//     _fullNameCtrl.dispose();
-//     _emailCtrl.dispose();
-//     _passCtrl.dispose();
-//     _confirmCtrl.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SafeArea(
-//         child: SingleChildScrollView(
-//           padding: const EdgeInsets.all(32),
-//           child: Column(
-//             children: [
-//               const SizedBox(height: 60),
-//               Image.asset('assets/images/logo.png', height: 110),
-//               const SizedBox(height: 50),
-
-//               const Text(
-//                 "Create Account",
-//                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-//               ),
-//               const Text(
-//                 "Join BhandarX",
-//                 style: TextStyle(color: Colors.grey),
-//               ),
-//               const SizedBox(height: 40),
-
-//               // FULL NAME FIELD
-//               InputField(label: "Full Name", controller: _fullNameCtrl),
-
-//               // EMAIL FIELD
-//               InputField(label: "Email", controller: _emailCtrl),
-
-//               // PASSWORD FIELD
-//               InputField(label: "Password", controller: _passCtrl, isPassword: true),
-
-//               // CONFIRM PASSWORD FIELD
-//               InputField(label: "Confirm Password", controller: _confirmCtrl, isPassword: true),
-
-//               if (_error != null)
-//                 Padding(
-//                   padding: const EdgeInsets.symmetric(vertical: 12),
-//                   child: Text(
-//                     _error!,
-//                     style: const TextStyle(color: Colors.red),
-//                   ),
-//                 ),
-
-//               const SizedBox(height: 20),
-
-//               CustomButton(text: "Create Account", onPressed: _register),
-
-//               const SizedBox(height: 20),
-
-//               TextButton(
-//                 onPressed: () => Navigator.pop(context),
-//                 child: const Text(
-//                   "Already have account? Login",
-//                   style: TextStyle(color: Color(0xFF3949AB)),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-
-
-
-
-// // lib/features/auth/presentation/pages/register_screen.dart
-
-// import 'package:flutter/material.dart';
-// import '../../../../core/widgets/input_field.dart';
-// import '../../../../core/widgets/custom_button.dart';
-// import '../../../../services/auth_service.dart';
-// import 'login_screen.dart';
-
-// class RegisterScreen extends StatefulWidget {
-//   static const routeName = '/register';
-//   const RegisterScreen({super.key});
-
-//   @override
-//   State<RegisterScreen> createState() => _RegisterScreenState();
-// }
-
-// class _RegisterScreenState extends State<RegisterScreen> {
-//   final _fullNameCtrl = TextEditingController();
-//   final _emailCtrl = TextEditingController();
-//   final _passCtrl = TextEditingController();
-//   final _confirmCtrl = TextEditingController();
-
-//   String? _error;
-//   bool _loading = false;
-
-//   Future<void> _register() async {
-//     final fullName = _fullNameCtrl.text.trim();
-//     final email = _emailCtrl.text.trim();
-//     final pass = _passCtrl.text;
-//     final confirm = _confirmCtrl.text;
-
-//     if (fullName.isEmpty || email.isEmpty || pass.isEmpty || confirm.isEmpty) {
-//       setState(() => _error = "All fields are required");
-//       return;
-//     }
-
-//     if (pass.length < 8 || !RegExp(r'[!@#$%^&*]').hasMatch(pass)) {
-//       setState(() => _error = "Password: 8+ chars + 1 special symbol");
-//       return;
-//     }
-
-//     if (pass != confirm) {
-//       setState(() => _error = "Passwords do not match");
-//       return;
-//     }
-
-//     setState(() {
-//       _error = null;
-//       _loading = true;
-//     });
-
-//     bool success = await AuthService().register(fullName, email, pass, confirm);
-
-//     if (success) {
-//       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-//     } else {
-//       setState(() => _error = "Email already exists or server error");
-//     }
-
-//     setState(() => _loading = false);
-//   }
-
-//   @override
-//   void dispose() {
-//     _fullNameCtrl.dispose();
-//     _emailCtrl.dispose();
-//     _passCtrl.dispose();
-//     _confirmCtrl.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SafeArea(
-//         child: SingleChildScrollView(
-//           padding: const EdgeInsets.all(32),
-//           child: Column(
-//             children: [
-//               const SizedBox(height: 60),
-//               Image.asset('assets/images/logo.png', height: 110),
-//               const SizedBox(height: 50),
-//               const Text(
-//                 "Create Account",
-//                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-//               ),
-//               const Text("Join BhandarX", style: TextStyle(color: Colors.grey)),
-//               const SizedBox(height: 40),
-//               InputField(label: "Full Name", controller: _fullNameCtrl),
-//               InputField(label: "Email", controller: _emailCtrl),
-//               InputField(label: "Password", controller: _passCtrl, isPassword: true),
-//               InputField(label: "Confirm Password", controller: _confirmCtrl, isPassword: true),
-//               if (_error != null)
-//                 Padding(
-//                   padding: const EdgeInsets.symmetric(vertical: 12),
-//                   child: Text(_error!, style: const TextStyle(color: Colors.red)),
-//                 ),
-//               const SizedBox(height: 20),
-//               CustomButton(
-//                 text: _loading ? "Creating..." : "Create Account",
-//                 onPressed: _loading ? () {} : _register,
-//               ),
-//               const SizedBox(height: 20),
-//               TextButton(
-//                 onPressed: () => Navigator.pop(context),
-//                 child: const Text(
-//                   "Already have account? Login",
-//                   style: TextStyle(color: Color(0xFF3949AB)),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-
-
-
-
-// // lib/screens/register_screen.dart
-
-// import 'package:flutter/material.dart';
-// import '../../../../core/widgets/input_field.dart';
-// import '../../../../core/widgets/custom_button.dart';
-// import '../../../../services/auth_service.dart';
-// import 'login_screen.dart';
-
-// class RegisterScreen extends StatefulWidget {
-//   static const routeName = '/register';
-//   const RegisterScreen({super.key});
-
-//   @override
-//   State<RegisterScreen> createState() => _RegisterScreenState();
-// }
-
-// class _RegisterScreenState extends State<RegisterScreen> {
-//   final _fullNameCtrl = TextEditingController();
-//   final _emailCtrl = TextEditingController();
-//   final _passCtrl = TextEditingController();
-//   final _confirmCtrl = TextEditingController();
-//   String? _error;
-
-//   void _register() async {
-//     final fullName = _fullNameCtrl.text.trim();
-//     final email = _emailCtrl.text.trim();
-//     final pass = _passCtrl.text;
-//     final confirm = _confirmCtrl.text;
-
-//     // Empty field validation
-//     if (fullName.isEmpty || email.isEmpty || pass.isEmpty || confirm.isEmpty) {
-//       setState(() => _error = "All fields are required");
-//       return;
-//     }
-
-//     // Password strength validation
-//     if (pass.length < 8 || !RegExp(r'[!@#$%^&*]').hasMatch(pass)) {
-//       setState(() => _error = "Password: 8+ chars + 1 special symbol");
-//       return;
-//     }
-
-//     // Confirm password validation
-//     if (pass != confirm) {
-//       setState(() => _error = "Passwords do not match");
-//       return;
-//     }
-
-//     // Save user (frontend only)
-//     await AuthService.saveUser(email, pass);
-
-//     // 🔥 FIXED — Redirect to LOGIN, NOT DASHBOARD
-//     Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-//   }
-
-//   @override
-//   void dispose() {
-//     _fullNameCtrl.dispose();
-//     _emailCtrl.dispose();
-//     _passCtrl.dispose();
-//     _confirmCtrl.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SafeArea(
-//         child: SingleChildScrollView(
-//           padding: const EdgeInsets.all(32),
-//           child: Column(
-//             children: [
-//               const SizedBox(height: 60),
-//               Image.asset('assets/images/logo.png', height: 110),
-//               const SizedBox(height: 50),
-
-//               const Text(
-//                 "Create Account",
-//                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-//               ),
-//               const Text(
-//                 "Join BhandarX",
-//                 style: TextStyle(color: Colors.grey),
-//               ),
-//               const SizedBox(height: 40),
-
-//               // FULL NAME FIELD
-//               InputField(label: "Full Name", controller: _fullNameCtrl),
-
-//               // EMAIL FIELD
-//               InputField(label: "Email", controller: _emailCtrl),
-
-//               // PASSWORD FIELD
-//               InputField(label: "Password", controller: _passCtrl, isPassword: true),
-
-//               // CONFIRM PASSWORD FIELD
-//               InputField(label: "Confirm Password", controller: _confirmCtrl, isPassword: true),
-
-//               if (_error != null)
-//                 Padding(
-//                   padding: const EdgeInsets.symmetric(vertical: 12),
-//                   child: Text(
-//                     _error!,
-//                     style: const TextStyle(color: Colors.red),
-//                   ),
-//                 ),
-
-//               const SizedBox(height: 20),
-
-//               CustomButton(text: "Create Account", onPressed: _register),
-
-//               const SizedBox(height: 20),
-
-//               TextButton(
-//                 onPressed: () => Navigator.pop(context),
-//                 child: const Text(
-//                   "Already have account? Login",
-//                   style: TextStyle(color: Color(0xFF3949AB)),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-
-

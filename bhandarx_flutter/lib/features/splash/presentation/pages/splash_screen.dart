@@ -1,40 +1,60 @@
+import 'package:bhandarx_flutter/app/themes/app_colors.dart';
+import 'package:bhandarx_flutter/core/services/storage/user_session_service.dart';
+import 'package:bhandarx_flutter/features/auth/presentation/pages/login_screen.dart';
+import 'package:bhandarx_flutter/features/auth/presentation/view_model/auth_view_model.dart';
+import 'package:bhandarx_flutter/features/home/presentation/pages/home_screen.dart';
+import 'package:bhandarx_flutter/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:flutter/material.dart';
-import '../../../onboarding/presentation/pages/onboarding_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SplashScreen extends StatefulWidget {
-  static const routeName = '/splash';
+class SplashScreen extends ConsumerStatefulWidget {
+  static const routeName = '/';
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class _SplashScreenState extends ConsumerState<SplashScreen>
     with SingleTickerProviderStateMixin {
-
-  late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
+  late final AnimationController _controller;
+  late final Animation<double> _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
-
-    // Fade-in animation controller
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 1200),
     );
-
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
-    );
-
+    _fadeAnimation =
+        CurvedAnimation(parent: _controller, curve: Curves.easeOut);
     _controller.forward();
+    _bootstrap();
+  }
 
-    // Navigate after animation
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
-    });
+  Future<void> _bootstrap() async {
+    await Future<void>.delayed(const Duration(milliseconds: 1600));
+    final sessionService = ref.read(userSessionServiceProvider);
+    final isLoggedIn = sessionService.isLoggedIn();
+    final hasSeenOnboarding = sessionService.hasSeenOnboarding();
+
+    if (isLoggedIn) {
+      await ref.read(authViewModelProvider.notifier).checkCurrentUser();
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    Navigator.pushReplacementNamed(
+      context,
+      isLoggedIn
+          ? HomeScreen.routeName
+          : hasSeenOnboarding
+              ? LoginScreen.routeName
+              : OnboardingScreen.routeName,
+    );
   }
 
   @override
@@ -46,41 +66,39 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF2A2F4F), // Modern deep indigo theme
+      backgroundColor: AppColors.textPrimary,
       body: Center(
         child: FadeTransition(
           opacity: _fadeAnimation,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // BhandarX Logo
-              Image.asset(
-                'assets/images/logo.png',
-                height: 160,
-              ),
-              const SizedBox(height: 25),
-
-              // Brand Name
-              const Text(
-                "BhandarX",
-                style: TextStyle(
+              Container(
+                height: 90,
+                width: 90,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(28),
+                ),
+                child: const Icon(
+                  Icons.inventory_2_rounded,
                   color: Colors.white,
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
+                  size: 42,
                 ),
               ),
-
+              const SizedBox(height: 24),
+              Text(
+                'BhandarX',
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      color: Colors.white,
+                    ),
+              ),
               const SizedBox(height: 8),
-
-              // Subtitle
-              const Text(
-                "Inventory Management System",
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
-                  letterSpacing: 1,
-                ),
+              Text(
+                'User account mobile workspace',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.white70,
+                    ),
               ),
             ],
           ),
@@ -89,47 +107,3 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
-
-
-
-
-
-// import 'dart:async';
-// import 'package:flutter/material.dart';
-// import 'onboarding_screen.dart';
-
-// class SplashScreen extends StatefulWidget {
-//   static const routeName = '/';
-//   const SplashScreen({super.key});
-
-//   @override
-//   State<SplashScreen> createState() => _SplashScreenState();
-// }
-
-// class _SplashScreenState extends State<SplashScreen> {
-//   @override
-//   void initState() {
-//     super.initState();
-//     Timer(const Duration(seconds: 3), () {
-//       Navigator.pushReplacementNamed(context, OnboardingScreen.routeName);
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: const Color(0xFF3949AB),
-//       body: Center(
-//         child: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             Image.asset('assets/images/logo.png', width: 140),
-//             const SizedBox(height: 30),
-//             const Text("BhandarX", style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.white)),
-//             const Text("Inventory Made Simple", style: TextStyle(color: Colors.white70, fontSize: 16)),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

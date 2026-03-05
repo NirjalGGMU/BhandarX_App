@@ -1,155 +1,99 @@
-// import 'package:flutter/material.dart';
-
-// class BhandarXBottomNav extends StatelessWidget {
-//   final int currentIndex;
-//   final Function(int) onTap;
-//   final VoidCallback onCenterTap;
-
-//   const BhandarXBottomNav({
-//     super.key,
-//     required this.currentIndex,
-//     required this.onTap,
-//     required this.onCenterTap,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: 70,
-//       margin: const EdgeInsets.all(16),
-//       decoration: BoxDecoration(
-//         color: const Color(0xFF3949AB),
-//         borderRadius: BorderRadius.circular(22),
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.black.withOpacity(0.15),
-//             blurRadius: 10,
-//           ),
-//         ],
-//       ),
-//       child: Stack(
-//         alignment: Alignment.center,
-//         children: [
-//           // Navigation Icons
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceAround,
-//             children: [
-//               _navIcon(Icons.home, 0),
-//               _navIcon(Icons.inventory_2, 1),
-//               const SizedBox(width: 50), // space for FAB
-//               _navIcon(Icons.notifications, 2),
-//               _navIcon(Icons.person, 3),
-//             ],
-//           ),
-
-//           // Center Floating Button
-//           Positioned(
-//             top: -28,
-//             child: GestureDetector(
-//               onTap: onCenterTap,
-//               child: Container(
-//                 height: 60,
-//                 width: 60,
-//                 decoration: const BoxDecoration(
-//                   color: Colors.white,
-//                   shape: BoxShape.circle,
-//                 ),
-//                 child: const Icon(
-//                   Icons.add,
-//                   size: 32,
-//                   color: Color(0xFF3949AB),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _navIcon(IconData icon, int index) {
-//     return IconButton(
-//       onPressed: () => onTap(index),
-//       icon: Icon(
-//         icon,
-//         size: 26,
-//         color: currentIndex == index
-//             ? Colors.white
-//             : Colors.white70,
-//       ),
-//     );
-//   }
-// }
-
-
-
-// bhandarx_flutter/lib/widgets/bottom_nav_bar.dart
-
+import 'package:bhandarx_flutter/app/themes/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../../app/themes/app_colors.dart';
 
 class BhandarXBottomNav extends StatelessWidget {
   final int currentIndex;
-  final Function(int) onTap;
-  final VoidCallback onCenterTap;
+  final ValueChanged<int> onTap;
 
   const BhandarXBottomNav({
     super.key,
     required this.currentIndex,
     required this.onTap,
-    required this.onCenterTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
-      height: 72,
-      margin: const EdgeInsets.all(14),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: isDark ? AppColors.darkSurface : AppColors.surface,
         borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 10,
-          ),
-        ],
+        border: Border.all(
+          color: isDark ? AppColors.darkBorder : AppColors.border,
+        ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _navIcon(Icons.home, 0),
-          _navIcon(Icons.inventory_2, 1),
-
-          // CENTER ADD BUTTON (INSIDE CONTAINER)
-          Container(
-            height: 48,
-            width: 48,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.add, color: Colors.white),
-              onPressed: onCenterTap,
-            ),
+          _NavItem(
+            icon: Icons.dashboard_rounded,
+            label: 'Home',
+            isActive: currentIndex == 0,
+            onTap: () => onTap(0),
           ),
-
-          _navIcon(Icons.notifications, 2),
-          _navIcon(Icons.person, 3),
+          _NavItem(
+            icon: Icons.notifications_outlined,
+            label: 'Alerts',
+            isActive: currentIndex == 1,
+            onTap: () => onTap(1),
+          ),
+          _NavItem(
+            icon: Icons.person_outline_rounded,
+            label: 'Profile',
+            isActive: currentIndex == 2,
+            onTap: () => onTap(2),
+          ),
+          _NavItem(
+            icon: Icons.settings_outlined,
+            label: 'Settings',
+            isActive: currentIndex == 3,
+            onTap: () => onTap(3),
+          ),
         ],
       ),
     );
   }
+}
 
-  Widget _navIcon(IconData icon, int index) {
-    final isActive = currentIndex == index;
-    return IconButton(
-      onPressed: () => onTap(index),
-      icon: Icon(
-        icon,
-        color: isActive ? AppColors.primary : Colors.grey,
+class _NavItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final bool isActive;
+  final VoidCallback onTap;
+
+  const _NavItem({
+    required this.icon,
+    required this.label,
+    required this.isActive,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final color = isActive ? AppColors.primary : AppColors.textSecondary;
+    return InkWell(
+      borderRadius: BorderRadius.circular(18),
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: color),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: color,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

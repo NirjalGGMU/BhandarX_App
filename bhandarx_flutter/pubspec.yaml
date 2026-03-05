@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   google_fonts: ^6.2.1
   # Removed the old version from here
 
@@ -53,6 +55,8 @@ dependencies:
   json_annotation: ^4.8.1
   uuid: ^4.3.3
   intl: ^0.20.2
+  fl_chart: ^0.71.0
+  qr_flutter: ^4.1.0
 
   # Background Tasks
   workmanager: ^0.9.0+3
@@ -82,4 +86,3 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logo.png
-

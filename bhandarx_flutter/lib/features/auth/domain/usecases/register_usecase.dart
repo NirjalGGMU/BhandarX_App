@@ -1,13 +1,12 @@
-import 'package:dartz/dartz.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bhandarx_flutter/core/error/failures.dart';
 import 'package:bhandarx_flutter/core/usecase/app_usecase.dart';
 import 'package:bhandarx_flutter/features/auth/data/repositories/auth_repository.dart';
 import 'package:bhandarx_flutter/features/auth/domain/entities/auth_entity.dart';
 import 'package:bhandarx_flutter/features/auth/domain/repositories/auth_repository.dart';
+import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Provider
 final registerUsecaseProvider = Provider<RegisterUsecase>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return RegisterUsecase(authRepository: authRepository);
@@ -18,16 +17,18 @@ class RegisterUsecaseParams extends Equatable {
   final String email;
   final String username;
   final String password;
+  final String role;
 
   const RegisterUsecaseParams({
     required this.fullName,
     required this.email,
     required this.username,
-    required this.password, required String confirmPassword,
+    required this.password,
+    this.role = 'employee',
   });
 
   @override
-  List<Object?> get props => [fullName, email, username, password];
+  List<Object?> get props => [fullName, email, username, password, role];
 }
 
 class RegisterUsecase
@@ -44,6 +45,7 @@ class RegisterUsecase
       email: params.email,
       username: params.username,
       password: params.password,
+      role: params.role,
     );
     return _authRepository.register(entity);
   }

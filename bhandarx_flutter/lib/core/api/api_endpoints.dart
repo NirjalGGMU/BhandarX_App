@@ -1,57 +1,50 @@
-// lib/core/api/api_endpoints.dart
 class ApiEndpoints {
-  static const String baseUrl = "http://192.168.1.xxx:5050/api"; // ← CHANGE THIS EVERY TIME YOU CHANGE NETWORK!
-  // static const String baseUrl = "https://your-production-domain.com/api";
+  ApiEndpoints._();
 
-  static const Duration connectionTimeout = Duration(seconds: 10);
-  static const Duration receiveTimeout = Duration(seconds: 10);
+  static const String login = '/auth/login';
+  static const String register = '/auth/register';
+  static const String forgotPassword = '/auth/forgot-password';
+  static String resetPassword(String token) => '/auth/reset-password/$token';
+  static const String resetPasswordOtp = '/auth/reset-password-otp';
+  static const String me = '/auth/me';
+  static const String updateProfile = '/auth/update-profile';
+  static const String updatePreferences = '/auth/preferences';
+  static const String changePassword = '/auth/change-password';
+  static const String notifications = '/notifications';
+  static String markNotificationRead(String id) => '/notifications/$id/read';
+  static const String markAllNotificationsRead = '/notifications/mark-all-read';
 
-  // Auth
-  static const String login = "/auth/login";
-  static const String register = "/auth/register";
-
-  // Later when you add more endpoints:
-  // static const String products = "/products";
-  // static const String categories = "/categories";
+  static const String products = '/products';
+  static const String searchProducts = '/products/search';
+  static const String lowStockProducts = '/products/low-stock';
+  static const String outOfStockProducts = '/products/out-of-stock';
+  static const String inventorySummary = '/products/inventory-summary';
+  static String productBySku(String sku) => '/products/sku/$sku';
+  static String productById(String id) => '/products/$id';
+  static const String categories = '/categories';
+  static const String rootCategories = '/categories/root';
+  static String categoryById(String id) => '/categories/$id';
+  static String categorySubcategories(String id) =>
+      '/categories/$id/subcategories';
+  static const String suppliers = '/suppliers';
+  static const String searchSuppliers = '/suppliers/search';
+  static String supplierById(String id) => '/suppliers/$id';
+  static const String customers = '/customers';
+  static String customerById(String id) => '/customers/$id';
+  static const String sales = '/sales';
+  static String saleById(String id) => '/sales/$id';
+  static String updateSalePayment(String id) => '/sales/$id/payment';
+  static String reverseSale(String id) => '/sales/$id/reverse';
+  static String cancelSale(String id) => '/sales/$id/cancel';
+  static const String purchases = '/purchases';
+  static String purchaseById(String id) => '/purchases/$id';
+  static String updatePurchase(String id) => '/purchases/$id';
+  static String receivePurchase(String id) => '/purchases/$id/receive';
+  static String updatePurchasePayment(String id) => '/purchases/$id/payment';
+  static String cancelPurchase(String id) => '/purchases/$id/cancel';
+  static const String transactions = '/transactions';
+  static const String recentTransactions = '/transactions/recent';
+  static const String transactionSummary = '/transactions/summary';
+  static const String reportDashboardSummary = '/reports/dashboard/summary';
+  static const String reportSalesTopProducts = '/reports/sales/top-products';
 }
-
-// class ApiEndpoints {
-//   ApiEndpoints._();
-
-//   //Info: Base URL
-//   // static const String baseUrl =
-//   //     "http://10.0.2.2:3000/api/v1"; // info: for android
-//   static const String baseUrl =
-//       "http://192.168.100.8:3000/api/v1"; // info: for physical device use computers IP
-
-//   // Note: For physical device use computer IP: "http:/102.168.x.x:5000/api/v1"
-
-//   static const Duration connectionTimeout = Duration(seconds: 30);
-//   static const Duration receiveTimeout = Duration(seconds: 30);
-
-//   // Hack: ========== Batch Endpoints ===========
-//   static const String batches = "/batches";
-//   static String batchById(String id) => '/batches/$id';
-
-//   // Hack: ========== Categories Endpoints ===========
-//   static const String categories = "/categories";
-//   static String categoriesById(String id) => '/categories/$id';
-
-//   // Hack: ========== Student Endpoints ===========
-//   static const String students = "/students";
-//   static const String studentLogin = "/students/login";
-//   static const String studentRegister = "/students/register";
-//   static String studentById(String id) => '/students/$id';
-//   static String studentPhoto(String id) => "/students/$id/photo";
-
-//   // Hack: ========== Item Endpoints ===========
-//   static const String items = "/items";
-//   static String itemsById(String id) => '/items/$id';
-//   static String itemsClaim(String id) => '/items/$id/claim';
-
-//   // Hack: ========== Comment Endpoints ===========
-//   static const String comments = "/comments";
-//   static String commentById(String id) => '/comments/$id';
-//   static String commentsByItems(String itemId) => "comments/item/$itemId";
-//   static String commentLike(String id) => '/items/$id/like';
-// }

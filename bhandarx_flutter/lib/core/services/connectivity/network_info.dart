@@ -1,6 +1,3 @@
-//lib/core/services/connectivity/network_info.dart
-import 'dart:io';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,735 +1,318 @@
-// import 'package:flutter/material.dart';
-
-// class DashboardScreen extends StatelessWidget {
-//   static const routeName = '/dashboard';
-//   const DashboardScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("BhandarX Dashboard"),
-//         backgroundColor: const Color(0xFF1E3A8A),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(20),
-//         child: GridView.count(
-//           crossAxisCount: 2,
-//           childAspectRatio: 1.2,
-//           crossAxisSpacing: 20,
-//           mainAxisSpacing: 20,
-//           children: [
-//             dashItem(Icons.inventory_rounded, "Products"),
-//             dashItem(Icons.category_outlined, "Categories"),
-//             dashItem(Icons.add_shopping_cart, "Add Stock"),
-//             dashItem(Icons.remove_shopping_cart, "Reduce Stock"),
-//             dashItem(Icons.analytics, "Reports"),
-//             dashItem(Icons.settings, "Settings"),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget dashItem(IconData icon, String title) {
-//     return Container(
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(18),
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.grey.shade300,
-//             blurRadius: 8,
-//             spreadRadius: 1,
-//           )
-//         ],
-//       ),
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Icon(icon, size: 48, color: Color(0xFF1E3A8A)),
-//           const SizedBox(height: 10),
-//           Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-
-// import 'package:flutter/material.dart';
-
-// class DashboardScreen extends StatelessWidget {
-//   static const routeName = '/dashboard';
-//   const DashboardScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: const Color(0xFF1E3A8A), // changed color
-//         foregroundColor: Colors.white,
-//         title: const Text("Home"),
-//         leading: Builder(
-//           builder: (context) => IconButton(
-//             icon: const Icon(Icons.menu),
-//             onPressed: () => Scaffold.of(context).openDrawer(),
-//           ),
-//         ),
-//         actions: const [
-//           Padding(
-//             padding: EdgeInsets.only(right: 16),
-//             child: CircleAvatar(
-//               backgroundColor: Colors.white,
-//               child: Icon(Icons.person, color: Color(0xFF1E3A8A)), // changed color
-//             ),
-//           )
-//         ],
-//       ),
-//       drawer: Drawer(
-//         child: ListView(
-//           children: [
-//             DrawerHeader(
-//               decoration: const BoxDecoration(color: Color(0xFF1E3A8A)), // changed color
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 mainAxisAlignment: MainAxisAlignment.end,
-//                 children: [
-//                   Image.asset('assets/images/logo.png', height: 60),
-//                   const SizedBox(height: 12),
-//                   const Text(
-//                     "BhandarX",
-//                     style: TextStyle(
-//                       color: Colors.white,
-//                       fontSize: 22,
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             ListTile(
-//               leading: const Icon(Icons.home, color: Color(0xFF1E3A8A)), // changed color
-//               title: const Text("Home"),
-//             ),
-//             ListTile(
-//               leading: const Icon(Icons.inventory, color: Color(0xFF1E3A8A)), // changed color
-//               title: const Text("Inventory"),
-//             ),
-//             ListTile(
-//               leading: const Icon(Icons.people, color: Color(0xFF1E3A8A)), // changed color
-//               title: const Text("Employees"),
-//             ),
-//             ListTile(
-//               leading: const Icon(Icons.receipt_long, color: Color(0xFF1E3A8A)), // changed color
-//               title: const Text("Transactions"),
-//             ),
-//           ],
-//         ),
-//       ),
-//       body: const Center(
-//         child: Text(
-//           "Welcome to Dashboard!",
-//           style: TextStyle(
-//             fontSize: 28,
-//             color: Colors.black54,
-//             fontWeight: FontWeight.w600,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-
-// Laest code befor now
-
-// import 'package:flutter/material.dart';
-// import '../widgets/bottom_nav_bar.dart';
-
-// class DashboardScreen extends StatefulWidget {
-//   static const routeName = '/dashboard';
-//   const DashboardScreen({super.key});
-
-//   @override
-//   State<DashboardScreen> createState() => _DashboardScreenState();
-// }
-
-// class _DashboardScreenState extends State<DashboardScreen> {
-//   int _currentIndex = 0;
-
-//   void _onNavTap(int index) {
-//     setState(() => _currentIndex = index);
-//   }
-
-//   void _onAddPressed() {
-//     // Future: Navigate to Add Inventory screen
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       const SnackBar(content: Text("Add new inventory")),
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("Dashboard"),
-//       ),
-
-//       body: Center(
-//         child: Text(
-//           "Current Tab: $_currentIndex",
-//           style: const TextStyle(fontSize: 22),
-//         ),
-//       ),
-
-//       bottomNavigationBar: BhandarXBottomNav(
-//         currentIndex: _currentIndex,
-//         onTap: _onNavTap,
-//         onCenterTap: _onAddPressed,
-//       ),
-//     );
-//   }
-// }
-
-
-
-
-// import 'package:flutter/material.dart';
-// import '../widgets/bottom_nav_bar.dart';
-// import '../themes/app_colors.dart';
-
-
-// class DashboardScreen extends StatefulWidget {
-// static const routeName = '/dashboard';
-// const DashboardScreen({super.key});
-
-
-// @override
-// State<DashboardScreen> createState() => _DashboardScreenState();
-// }
-
-
-// class _DashboardScreenState extends State<DashboardScreen> {
-// int _currentIndex = 0;
-
-
-// @override
-// Widget build(BuildContext context) {
-// return Scaffold(
-// appBar: AppBar(
-// title: const Text('Dashboard'),
-// ),
-
-
-// drawer: Drawer(
-// child: ListView(
-// children: const [
-// DrawerHeader(
-// decoration: BoxDecoration(color: AppColors.primary),
-// child: Text('BhandarX',
-// style: TextStyle(color: Colors.white, fontSize: 22)),
-// ),
-// ListTile(leading: Icon(Icons.home), title: Text('Home')),
-// ListTile(leading: Icon(Icons.inventory), title: Text('Inventory')),
-// ListTile(leading: Icon(Icons.people), title: Text('Employees')),
-// ListTile(leading: Icon(Icons.logout), title: Text('Logout')),
-// ],
-// ),
-// ),
-
-
-// body: Center(
-// child: Text(
-// 'Welcome to Dashboard',
-// style: Theme.of(context).textTheme.headlineMedium,
-// ),
-// ),
-
-
-// bottomNavigationBar: BhandarXBottomNav(
-// currentIndex: _currentIndex,
-// onTap: (index) => setState(() => _currentIndex = index),
-// ),
-// );
-// }
-// }
-
-
-// bhandarx_flutter/lib/screens/dashboard_screen.dart
-// import 'package:flutter/material.dart';
-// import '../themes/app_colors.dart';
-
-// class DashboardScreen extends StatefulWidget {
-//   static const routeName = '/dashboard';
-//   const DashboardScreen({super.key});
-
-//   @override
-//   State<DashboardScreen> createState() => _DashboardScreenState();
-// }
-
-// class _DashboardScreenState extends State<DashboardScreen> {
-//   int _currentIndex = 0;
-
-//   final List<Widget> _pages = const [
-//     Center(child: Text("Dashboard")),
-//     Center(child: Text("Inventory")),
-//     Center(child: Text("Profile")),
-//     Center(child: Text("Settings")),
-//   ];
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text("BhandarX")),
-
-//       // Drawer (unchanged, still professional)
-//       drawer: Drawer(
-//         child: ListView(
-//           children: const [
-//             DrawerHeader(
-//               decoration: BoxDecoration(color: AppColors.primary),
-//               child: Text(
-//                 "BhandarX",
-//                 style: TextStyle(color: Colors.white, fontSize: 22),
-//               ),
-//             ),
-//             ListTile(leading: Icon(Icons.dashboard), title: Text("Dashboard")),
-//             ListTile(leading: Icon(Icons.inventory), title: Text("Inventory")),
-//             ListTile(leading: Icon(Icons.people), title: Text("Employees")),
-//             ListTile(leading: Icon(Icons.settings), title: Text("Settings")),
-//             Divider(),
-//             ListTile(leading: Icon(Icons.logout), title: Text("Logout")),
-//           ],
-//         ),
-//       ),
-
-//       body: _pages[_currentIndex],
-
-//       // 🔥 Modern Bottom Navigation
-//       bottomNavigationBar: _buildBottomNav(),
-//     );
-//   }
-
-//   Widget _buildBottomNav() {
-//     return Container(
-//       height: 72,
-//       margin: const EdgeInsets.all(16),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(28),
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.black.withOpacity(0.08),
-//             blurRadius: 12,
-//             offset: const Offset(0, 6),
-//           ),
-//         ],
-//       ),
-//       child: Stack(
-//         alignment: Alignment.center,
-//         children: [
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceAround,
-//             children: [
-//               _navIcon(Icons.dashboard, 0),
-//               _navIcon(Icons.inventory_2, 1),
-//               const SizedBox(width: 60), // space for FAB
-//               _navIcon(Icons.person, 2),
-//               _navIcon(Icons.settings, 3),
-//             ],
-//           ),
-
-//           // Center Floating Action
-//           Positioned(
-//             top: -26,
-//             child: GestureDetector(
-//               onTap: () {
-//                 // Add inventory action
-//               },
-//               child: Container(
-//                 height: 58,
-//                 width: 58,
-//                 decoration: BoxDecoration(
-//                   color: AppColors.primary,
-//                   shape: BoxShape.circle,
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: AppColors.primary.withOpacity(0.4),
-//                       blurRadius: 12,
-//                     ),
-//                   ],
-//                 ),
-//                 child: const Icon(Icons.add, color: Colors.white, size: 30),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _navIcon(IconData icon, int index) {
-//     final bool isActive = _currentIndex == index;
-
-//     return IconButton(
-//       onPressed: () => setState(() => _currentIndex = index),
-//       icon: Icon(
-//         icon,
-//         size: 26,
-//         color: isActive ? AppColors.primary : Colors.grey,
-//       ),
-//     );
-//   }
-// }
-
-
-// // bhandarx_flutter/lib/screens/dashboard_screen.dart
-// import 'package:flutter/material.dart';
-// import '../../../../app/themes/app_colors.dart';
-// import '../../../../core/widgets/bottom_nav_bar.dart';
-
-// class DashboardScreen extends StatefulWidget {
-//   static const routeName = '/dashboard';
-//   const DashboardScreen({super.key});
-
-//   @override
-//   State<DashboardScreen> createState() => _DashboardScreenState();
-// }
-
-// class _DashboardScreenState extends State<DashboardScreen> {
-//   int _currentIndex = 0;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       drawer: _buildDrawer(),
-//       appBar: AppBar(
-//         title: const Text("BhandarX"),
-//         leading: Builder(
-//           builder: (context) => IconButton(
-//             icon: const Icon(Icons.menu),
-//             onPressed: () => Scaffold.of(context).openDrawer(),
-//           ),
-//         ),
-//         actions: const [
-//           Padding(
-//             padding: EdgeInsets.only(right: 16),
-//             child: CircleAvatar(
-//               backgroundColor: Colors.white,
-//               child: Icon(Icons.person, color: AppColors.primary),
-//             ),
-//           )
-//         ],
-//       ),
-
-//       body: Padding(
-//         padding: const EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             const Text(
-//               "Good Evening 👋",
-//               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-//             ),
-//             const SizedBox(height: 12),
-
-//             // FEATURE CARD
-//             Container(
-//               width: double.infinity,
-//               padding: const EdgeInsets.all(20),
-//               decoration: BoxDecoration(
-//                 gradient: const LinearGradient(
-//                   colors: [AppColors.primary, AppColors.secondary],
-//                 ),
-//                 borderRadius: BorderRadius.circular(18),
-//               ),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: const [
-//                   Icon(Icons.inventory_2, color: Colors.white, size: 32),
-//                   SizedBox(height: 10),
-//                   Text(
-//                     "Inventory Overview",
-//                     style: TextStyle(
-//                         color: Colors.white,
-//                         fontSize: 18,
-//                         fontWeight: FontWeight.bold),
-//                   ),
-//                   SizedBox(height: 4),
-//                   Text(
-//                     "Track stock, sales & updates easily",
-//                     style: TextStyle(color: Colors.white70),
-//                   ),
-//                 ],
-//               ),
-//             ),
-
-//             const SizedBox(height: 20),
-
-//             // QUICK ACTIONS
-//             Expanded(
-//               child: GridView.count(
-//                 crossAxisCount: 2,
-//                 crossAxisSpacing: 14,
-//                 mainAxisSpacing: 14,
-//                 children: [
-//                   _dashboardCard(Icons.inventory, "Inventory"),
-//                   _dashboardCard(Icons.receipt_long, "Transactions"),
-//                   _dashboardCard(Icons.people, "Employees"),
-//                   _dashboardCard(Icons.analytics, "Reports"),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-
-//       bottomNavigationBar: BhandarXBottomNav(
-//         currentIndex: _currentIndex,
-//         onTap: (index) => setState(() => _currentIndex = index),
-//         onCenterTap: () {
-//           // Add new inventory action
-//         },
-//       ),
-//     );
-//   }
-
-//   Widget _dashboardCard(IconData icon, String title) {
-//     return Container(
-//       decoration: BoxDecoration(
-//         color: AppColors.surface,
-//         borderRadius: BorderRadius.circular(18),
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.black12,
-//             blurRadius: 6,
-//           ),
-//         ],
-//       ),
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Icon(icon, size: 36, color: AppColors.primary),
-//           const SizedBox(height: 10),
-//           Text(
-//             title,
-//             style: const TextStyle(fontWeight: FontWeight.w600),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Drawer _buildDrawer() {
-//     return Drawer(
-//       child: Column(
-//         children: [
-//           DrawerHeader(
-//             decoration: const BoxDecoration(color: AppColors.primary),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               mainAxisAlignment: MainAxisAlignment.end,
-//               children: const [
-//                 Text(
-//                   "BhandarX",
-//                   style: TextStyle(
-//                       color: Colors.white,
-//                       fontSize: 24,
-//                       fontWeight: FontWeight.bold),
-//                 ),
-//                 Text(
-//                   "Inventory Management",
-//                   style: TextStyle(color: Colors.white70),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           ListTile(leading: Icon(Icons.home), title: Text("Home")),
-//           ListTile(leading: Icon(Icons.inventory), title: Text("Inventory")),
-//           ListTile(leading: Icon(Icons.people), title: Text("Employees")),
-//           ListTile(leading: Icon(Icons.settings), title: Text("Settings")),
-//           const Spacer(),
-//           ListTile(leading: const Icon(Icons.logout), title: const Text("Logout")),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-
-
-
-// bhandarx_flutter/lib/screens/dashboard_screen.dart
+import 'package:bhandarx_flutter/app/themes/app_colors.dart';
+import 'package:bhandarx_flutter/core/widgets/bottom_nav_bar.dart';
+import 'package:bhandarx_flutter/features/auth/presentation/pages/login_screen.dart';
+import 'package:bhandarx_flutter/features/auth/presentation/view_model/auth_view_model.dart';
+import 'package:bhandarx_flutter/features/notifications/presentation/pages/notifications_screen.dart';
+import 'package:bhandarx_flutter/features/profile/presentation/pages/profile_screen.dart';
+import 'package:bhandarx_flutter/features/profile/presentation/pages/settings_screen.dart';
 import 'package:flutter/material.dart';
-import '../../../../app/themes/app_colors.dart';
-import '../../../../core/widgets/bottom_nav_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DashboardScreen extends StatefulWidget {
+class DashboardScreen extends ConsumerStatefulWidget {
   static const routeName = '/dashboard';
   const DashboardScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authViewModelProvider);
+    final user = authState.entity;
+
+    final pages = [
+      _HomeOverview(userName: user?.fullName ?? 'User', role: user?.role ?? 'employee'),
+      const NotificationsScreen(embedded: true),
+      const ProfileScreen(embedded: true),
+      const SettingsScreen(embedded: true),
+    ];
+
     return Scaffold(
-      drawer: _buildDrawer(),
       appBar: AppBar(
-        title: const Text("BhandarX"),
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () => Scaffold.of(context).openDrawer(),
+        title: Text(_appBarTitle),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, NotificationsScreen.routeName);
+            },
+            icon: const Icon(Icons.notifications_none_rounded),
           ),
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Icon(Icons.person, color: AppColors.primary),
-            ),
-          )
         ],
       ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Good Evening 👋",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-
-            // FEATURE CARD
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [AppColors.primary, AppColors.secondary],
+      drawer: Drawer(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const CircleAvatar(
+                        radius: 24,
+                        backgroundColor: Colors.white,
+                        child: Icon(Icons.person, color: AppColors.primary),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        user?.fullName ?? 'BhandarX User',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        (user?.role ?? 'employee').toUpperCase(),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.white70,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Icon(Icons.inventory_2, color: Colors.white, size: 32),
-                  SizedBox(height: 10),
-                  Text(
-                    "Inventory Overview",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    "Track stock, sales & updates easily",
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                ],
-              ),
+                const SizedBox(height: 20),
+                _DrawerAction(
+                  icon: Icons.person_outline_rounded,
+                  label: 'My Profile',
+                  onTap: () => Navigator.pushNamed(context, ProfileScreen.routeName),
+                ),
+                _DrawerAction(
+                  icon: Icons.notifications_outlined,
+                  label: 'Notifications',
+                  onTap: () =>
+                      Navigator.pushNamed(context, NotificationsScreen.routeName),
+                ),
+                _DrawerAction(
+                  icon: Icons.settings_outlined,
+                  label: 'Settings',
+                  onTap: () => Navigator.pushNamed(context, SettingsScreen.routeName),
+                ),
+                const Spacer(),
+                _DrawerAction(
+                  icon: Icons.logout_rounded,
+                  label: 'Logout',
+                  onTap: _logout,
+                ),
+              ],
             ),
-
-            const SizedBox(height: 20),
-
-            // QUICK ACTIONS
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 14,
-                mainAxisSpacing: 14,
-                children: [
-                  _dashboardCard(Icons.inventory, "Inventory"),
-                  _dashboardCard(Icons.receipt_long, "Transactions"),
-                  _dashboardCard(Icons.people, "Employees"),
-                  _dashboardCard(Icons.analytics, "Reports"),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
-
+      body: pages[_currentIndex],
       bottomNavigationBar: BhandarXBottomNav(
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
-        onCenterTap: () {
-          // Add new inventory action
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
         },
       ),
     );
   }
 
-  Widget _dashboardCard(IconData icon, String title) {
+  String get _appBarTitle {
+    switch (_currentIndex) {
+      case 1:
+        return 'Notifications';
+      case 2:
+        return 'My Profile';
+      case 3:
+        return 'Settings';
+      default:
+        return 'BhandarX';
+    }
+  }
+
+  Future<void> _logout() async {
+    final shouldLogout = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Logout'),
+          content: const Text('Are you sure you want to log out?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Logout'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldLogout != true) {
+      return;
+    }
+
+    await ref.read(authViewModelProvider.notifier).logout();
+    if (!mounted) {
+      return;
+    }
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      LoginScreen.routeName,
+      (route) => false,
+    );
+  }
+}
+
+class _HomeOverview extends StatelessWidget {
+  final String userName;
+  final String role;
+
+  const _HomeOverview({required this.userName, required this.role});
+
+  @override
+  Widget build(BuildContext context) {
+    final isAdmin = role == 'admin';
+    final cards = isAdmin
+        ? const [
+            ('Products overview', AppColors.accentBlue, Icons.inventory_2_outlined),
+            ('Notifications', AppColors.accentPurple, Icons.notifications_active_outlined),
+            ('Profile controls', AppColors.primary, Icons.manage_accounts_outlined),
+            ('Settings', AppColors.accentOrange, Icons.settings_outlined),
+          ]
+        : const [
+            ('My alerts', AppColors.accentPurple, Icons.notifications_active_outlined),
+            ('Profile', AppColors.primary, Icons.person_outline_rounded),
+            ('Password', AppColors.accentRed, Icons.lock_outline_rounded),
+            ('Preferences', AppColors.accentBlue, Icons.tune_rounded),
+          ];
+
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Container(
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Welcome back, $userName',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'This mobile app focuses on your account, profile, notifications, and settings.',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 18),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  _Pill(label: role.toUpperCase(), color: AppColors.primary),
+                  const _Pill(label: 'Mobile user scope', color: AppColors.accentBlue),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: cards.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 14,
+            crossAxisSpacing: 14,
+            childAspectRatio: 1.12,
+          ),
+          itemBuilder: (context, index) {
+            final card = cards[index];
+            return Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(color: AppColors.border),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: card.$2.withValues(alpha: 0.12),
+                    child: Icon(card.$3, color: card.$2),
+                  ),
+                  const Spacer(),
+                  Text(
+                    card.$1,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _Pill extends StatelessWidget {
+  final String label;
+  final Color color;
+
+  const _Pill({required this.label, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6,
-          ),
-        ],
+        color: color.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(999),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 36, color: AppColors.primary),
-          const SizedBox(height: 10),
-          Text(
-            title,
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
-        ],
+      child: Text(
+        label,
+        style: TextStyle(color: color, fontWeight: FontWeight.w700),
       ),
     );
   }
+}
 
-  Drawer _buildDrawer() {
-    return Drawer(
-      child: Column(
-        children: [
-          DrawerHeader(
-            decoration: const BoxDecoration(color: AppColors.primary),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                Text(
-                  "BhandarX",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  "Inventory Management",
-                  style: TextStyle(color: Colors.white70),
-                ),
-              ],
-            ),
-          ),
-          ListTile(leading: Icon(Icons.home), title: Text("Home")),
-          ListTile(leading: Icon(Icons.inventory), title: Text("Inventory")),
-          ListTile(leading: Icon(Icons.people), title: Text("Employees")),
-          ListTile(leading: Icon(Icons.settings), title: Text("Settings")),
-          const Spacer(),
-          ListTile(leading: const Icon(Icons.logout), title: const Text("Logout")),
-        ],
-      ),
+class _DrawerAction extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _DrawerAction({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      leading: Icon(icon, color: AppColors.primary),
+      title: Text(label),
+      onTap: onTap,
     );
   }
 }

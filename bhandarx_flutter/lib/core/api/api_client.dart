@@ -1,53 +1,63 @@
+import 'package:bhandarx_flutter/core/config/app_config.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+final apiClientProvider = Provider<ApiClient>((ref) {
+  final client = ApiClient();
+  client.initInterceptors();
+  return client;
+});
+
 class ApiClient {
-  static final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: 'http://192.168.1.xxx:5050/api', // ← CHANGE to your backend IP/port
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-    ),
-  );
+  ApiClient()
+    : dio = Dio(
+        BaseOptions(
+          baseUrl: AppConfig.baseUrl,
+          connectTimeout: AppConfig.connectTimeout,
+          receiveTimeout: AppConfig.receiveTimeout,
+          headers: {'Content-Type': 'application/json'},
+        ),
+      );
 
-  static final _storage = const FlutterSecureStorage();
+  final Dio dio;
+  static const _storage = FlutterSecureStorage();
+  static const _tokenKey = 'jwt_token';
 
-  static Future<void> initInterceptors() async {
-    _dio.interceptors.add(
+  void initInterceptors() {
+    dio.interceptors.clear();
+    dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          final token = await _storage.read(key: 'jwt_token');
-          if (token != null) {
+          final token = await _storage.read(key: _tokenKey);
+          if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
-          print('→ REQUEST: ${options.method} ${options.path}'); // debug
-          return handler.next(options);
+          debugPrint('REQUEST ${options.method} ${options.uri}');
+          handler.next(options);
         },
         onResponse: (response, handler) {
-          print('← RESPONSE: ${response.statusCode} ${response.requestOptions.path}');
-          return handler.next(response);
+          debugPrint('RESPONSE ${response.statusCode} ${response.requestOptions.uri}');
+          handler.next(response);
         },
-        onError: (DioException e, handler) {
-          print('✗ ERROR: ${e.message}');
-          return handler.next(e);
+        onError: (error, handler) {
+          debugPrint('ERROR ${error.response?.statusCode} ${error.message}');
+          handler.next(error);
         },
       ),
     );
   }
 
-  static Dio get dio => _dio;
-
-  // Helper to save token after login/register
-  static Future<void> saveToken(String token) async {
-    await _storage.write(key: 'jwt_token', value: token);
-    print('TOKEN SAVED: $token'); // ← You will see this in VS Code console!
+  Future<void> saveToken(String token) {
+    return _storage.write(key: _tokenKey, value: token);
   }
 
-  static Future<String?> getToken() async {
-    return await _storage.read(key: 'jwt_token');
+  Future<String?> getToken() {
+    return _storage.read(key: _tokenKey);
   }
 
-  static Future<void> clearToken() async {
-    await _storage.delete(key: 'jwt_token');
+  Future<void> clearToken() {
+    return _storage.delete(key: _tokenKey);
   }
 }

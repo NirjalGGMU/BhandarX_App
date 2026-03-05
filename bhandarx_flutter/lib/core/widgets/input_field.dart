@@ -1,5 +1,4 @@
-// lib/widgets/input_field.dart
-
+import 'package:bhandarx_flutter/app/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class InputField extends StatefulWidget {
@@ -7,6 +6,9 @@ class InputField extends StatefulWidget {
   final TextEditingController controller;
   final String? hint;
   final bool isPassword;
+  final TextInputType keyboardType;
+  final int maxLines;
+  final Widget? suffix;
 
   const InputField({
     super.key,
@@ -14,6 +16,9 @@ class InputField extends StatefulWidget {
     required this.controller,
     this.hint,
     this.isPassword = false,
+    this.keyboardType = TextInputType.text,
+    this.maxLines = 1,
+    this.suffix,
   });
 
   @override
@@ -25,40 +30,47 @@ class _InputFieldState extends State<InputField> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+        Text(
+          widget.label,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontSize: 14,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.darkTextPrimary
+                : AppColors.textPrimary,
+          ),
+        ),
         const SizedBox(height: 8),
         TextField(
           controller: widget.controller,
+          keyboardType: widget.keyboardType,
           obscureText: widget.isPassword ? _obscureText : false,
+          maxLines: widget.maxLines,
           decoration: InputDecoration(
             hintText: widget.hint,
-            filled: true,
-            fillColor: Colors.grey[50],
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(color: Color(0xFF3949AB), width: 2),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-            suffixIcon: widget.isPassword
-                ? IconButton(
-                    icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
-                    onPressed: () => setState(() => _obscureText = !_obscureText),
-                  )
-                : null,
+            suffixIcon: widget.suffix ??
+                (widget.isPassword
+                    ? IconButton(
+                        icon: Icon(
+                          _obscureText
+                              ? Icons.visibility_off_rounded
+                              : Icons.visibility_rounded,
+                          color: colors.primary,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                      )
+                    : null),
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 18),
       ],
     );
   }
