@@ -1,0 +1,9 @@
+{
+  "name": "bhandarx-app-project",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix backend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "lint:backend": "npm --prefix backend run lint"
+  }
+}
