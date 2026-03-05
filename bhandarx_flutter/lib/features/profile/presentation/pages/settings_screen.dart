@@ -3,6 +3,7 @@ import 'package:bhandarx_flutter/core/localization/app_localizations.dart';
 import 'package:bhandarx_flutter/app/themes/theme_mode_provider.dart';
 import 'package:bhandarx_flutter/core/providers/language_provider.dart';
 import 'package:bhandarx_flutter/features/auth/presentation/view_model/auth_view_model.dart';
+import 'package:bhandarx_flutter/features/sensors/presentation/pages/sensors_dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -84,6 +85,26 @@ class SettingsScreen extends ConsumerWidget {
                 ButtonSegment(value: AppLanguage.nepali, label: Text('NE')),
               ],
             ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.darkBorder
+                  : AppColors.border,
+            ),
+          ),
+          child: ListTile(
+            leading: const Icon(Icons.sensors_rounded),
+            title: const Text('Sensors'),
+            subtitle: const Text('Accelerometer and Gyroscope'),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () =>
+                Navigator.pushNamed(context, SensorsDashboardScreen.routeName),
           ),
         ),
       ],
