@@ -13,6 +13,9 @@ import 'package:bhandarx_flutter/features/profile/presentation/pages/change_pass
 import 'package:bhandarx_flutter/features/profile/presentation/pages/edit_profile_screen.dart';
 import 'package:bhandarx_flutter/features/profile/presentation/pages/profile_screen.dart';
 import 'package:bhandarx_flutter/features/profile/presentation/pages/settings_screen.dart';
+import 'package:bhandarx_flutter/features/sensors/presentation/pages/accelerometer_screen.dart';
+import 'package:bhandarx_flutter/features/sensors/presentation/pages/gyroscope_screen.dart';
+import 'package:bhandarx_flutter/features/sensors/presentation/pages/sensors_dashboard_screen.dart';
 import 'package:bhandarx_flutter/features/splash/presentation/pages/splash_screen.dart';
 import 'package:bhandarx_flutter/features/workspace/presentation/pages/customers_page.dart';
 import 'package:bhandarx_flutter/features/workspace/presentation/pages/products_page.dart';
@@ -62,6 +65,9 @@ class App extends ConsumerWidget {
         ChangePasswordScreen.routeName: (_) => const ChangePasswordScreen(),
         NotificationsScreen.routeName: (_) => const NotificationsScreen(),
         SettingsScreen.routeName: (_) => const SettingsScreen(),
+        SensorsDashboardScreen.routeName: (_) => const SensorsDashboardScreen(),
+        AccelerometerScreen.routeName: (_) => const AccelerometerScreen(),
+        GyroscopeScreen.routeName: (_) => const GyroscopeScreen(),
         LogoutConfirmationScreen.routeName: (_) =>
             const LogoutConfirmationScreen(),
         WorkspaceDashboardScreen.routeName: (_) =>

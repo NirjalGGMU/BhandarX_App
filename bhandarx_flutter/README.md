@@ -1,16 +1,38 @@
-# bhandarx_flutter
+# BhandarX Flutter App
 
-A new Flutter project.
+Flutter frontend for BhandarX inventory operations (user/employee scope).
 
-## Getting Started
+## Main Features
 
-This project is a starting point for a Flutter application.
+- Auth: splash, onboarding, register, login, forgot/reset password (OTP)
+- Profile: view/edit profile, change password, logout
+- Notifications: list and read-state handling
+- Workspace:
+  - Products (list/search/low stock/out of stock)
+  - Customers (list/create/edit/detail)
+  - Sales/POS (create sale and payment flow)
+  - Transactions (history/recent/summary insights)
+- Preferences: dark mode, notification toggles, language toggle (EN/NE)
+- Offline queue for selected create actions
+- QR payment support in sales flow
+- Sensor support:
+  - Accelerometer
+  - Gyroscope
 
-A few resources to get you started if this is your first Flutter project:
+## Tech Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter + Dart
+- Riverpod
+- Dio
+- Hive
+- Shared Preferences + Secure Storage
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Run
+
+```bash
+flutter clean
+flutter pub get
+flutter run -d chrome
+```
+
+Use Android emulator/physical device for runtime permissions and sensor testing.
